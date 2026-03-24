@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Night Ride Service</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #111; color: white; }
+    input, button { padding: 10px; margin: 5px 0; width: 100%; }
+    button { background: #28a745; color: white; border: none; }
+  </style>
+</head>
+<body>
+
+<h2>🚗 Night Ride Service</h2>
+<p>Available 4:00 PM – 6:00 AM</p>
+
+<label>Pickup Location</label>
+<input type="text" id="pickup">
+
+<label>Dropoff Location</label>
+<input type="text" id="dropoff">
+
+<label>Distance (miles)</label>
+<input type="number" id="miles">
+
+<label>Time</label>
+<input type="time" id="time">
+
+<button onclick="calculateFare()">Get Price</button>
+
+<h3 id="result"></h3>
+
+<script>
+function isWithinHours(time) {
+    let hour = parseInt(time.split(":")[0]);
+    return (hour >= 16 || hour < 6);
+}
+
+function calculateFare() {
+    let miles = document.getElementById("miles").value;
+    let time = document.getElementById("time").value;
+
+    if (!isWithinHours(time)) {
+        document.getElementById("result").innerText =
+            "❌ Service only available 4 PM – 6 AM";
+        return;
+    }
+
+    let base = 5;
+    let perMile = 1.75;
+    let fare = base + (miles * perMile);
+
+    // Minimum fare
+    if (fare < 12) fare = 12;
+
+    // Late night fee
+    let hour = parseInt(time.split(":")[0]);
+    if (hour >= 22 || hour < 6) {
+        fare += 5;
+    }
+
+    document.getElementById("result").innerText =
+        "Estimated Fare: $" + fare.toFixed(2);
+}
+</script>
+
+</body>
+</html>
+	◦	
